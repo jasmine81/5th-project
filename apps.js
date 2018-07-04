@@ -2,35 +2,35 @@
 
 var locations = [
 	{
-		name: 'VIT',
-		lat: 12.9718,
-		long: 79.1589
+		garden_name: 'VIT',
+		latitude: 12.9718,
+		longitude: 79.1589
 	},
 	
 	{
-		name: 'SRM',
-		lat: 12.8231,
-		long: 80.0453
+		garden_name: 'SRM',
+		latitude: 12.8231,
+		longitude: 80.0453
 	},
 	{
-		name: 'KLU',
-		lat: 16.4419,
-		long:80.6225
+		garden_name: 'KLU',
+		latitude: 16.4419,
+		longitude:80.6225
 	},
 	{
-		name: 'JNTU',
-		lat: 17.4933,
-		long: 78.3916
+		garden_name: 'JNTU',
+		latitude: 17.4933,
+		longitude: 78.3916
 	},
 	{
-		name: 'Shivaji',
-		lat: 16.6780,
-		long: 74.2555
+		garden_name: 'Shivaji',
+		latitude: 16.6780,
+		longitude: 74.2555
 	},
 	{
-		name: 'Anna',
-		lat: 13.0103,
-		long:80.2318
+		garden_name: 'Anna',
+		latitude: 13.0103,
+		longitude:80.2318
 	}
 
 ];
@@ -44,36 +44,36 @@ var secret;
 
 var Location = function(details) {
 	var self = this;
-	this.name = details.name;
-	this.lat = details.lat;
-	this.long = details.long;
+	this.garden_name = details.garden_name;
+	this.latitude = details.latitude;
+	this.longitude = details.longitude;
 	
-	this.street = "";
-	this.city = "";
+	this.strt = "";
+	this.city  garden_name= "";
 	
 
 	this.visible = ko.observable(true);
 
-	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+ this.lat + ',' + this.long + '&client_id=' + id + '&client_secret=' + secret + '&v=20160118' + '&query=' + this.name;
+	var foursquareURL = 'https://api.foursquare.com/v2/venues/search?ll='+ this.latitude + ',' + this.longitude + '&client_id=' + id + '&client_secret=' + secret + '&v=20160118' + '&query=' + this.garden_name;
 
 	$.getJSON(foursquareURL).done(function(details) {
 		var ress = details.response.venues[0];
-		self.street = ress.location.formattedAddress[0];
-     	self.city = ress.location.formattedAddress[1];
+		self.strt = ress.location.formattedAddress[0];
+     	self.city  garden_name= ress.location.formattedAddress[1];
 	}).fail(function() {
 		alert("Please refresh the page and try again");
 	});
 
-	this.contentString = '<div class="title"><b>' + details.name + "</b></div>" +
-        '<div class="content">' + self.street + "</div>" +
-        '<div class="content">' + self.city + "</div>";
+	this.contentName = '<div class="title"><b>' + details.garden_name + "</b></div>" +
+        '<div class="content">' + self.strt + "</div>" +
+        '<div class="content">' + self.city  garden_name+ "</div>";
 
-	this.infoWindow = new google.maps.InfoWindow({content: self.contentString});
+	this.infoWindow = new google.maps.InfoWindow({content: self.contentName});
 
 	this.marker = new google.maps.Marker({
-			position: new google.maps.LatLng(details.lat, details.long),
+			position: new google.maps.latitudeLng(details.latitude, details.longitude),
 			map: map,
-			title: details.name
+			title: details.garden_name
 	});
 
 	this.showMarker = ko.computed(function() {
@@ -86,11 +86,11 @@ var Location = function(details) {
 	}, this);
 
 	this.marker.addListener('click', function(){
-		self.contentString = '<div class="title"><b>' + details.name + "</b></div>" +
-        '<div class="content">' + self.street + "</div>" +
-        '<div class="content">' + self.city + "</div>";
+		self.contentName = '<div class="title"><b>' + details.garden_name + "</b></div>" +
+        '<div class="content">' + self.strt + "</div>" +
+        '<div class="content">' + self.city  garden_name+ "</div>";
 
-        self.infoWindow.setContent(self.contentString);
+        self.infoWindow.setCont(self.contentName);
 
 		self.infoWindow.open(map, this);
 
@@ -105,7 +105,7 @@ var Location = function(details) {
 	};
 };
 
-function AppView() {
+function ApplicationView() {
 	var self = this;
 
 	this.searchTerm = ko.observable("");
@@ -114,29 +114,29 @@ function AppView() {
 
 	map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 6,
-			center:{lat:12.1124,lng:77.0193}
+			center:{latitude:12.1124,lng:77.0193}
 	});
 
 	// Foursquare API settings
-	id = "R4VG53MD1411WOTLL3Y4SXB145BN5X0BFNJZFDH4FUQSECYF";
-	secret = "XTDMSQAGT3IIJD5A132TEX34S1MRLSKJDRCQX4KQ24LA1JGA";
+	id = "1YNMK3HEBVMX532KOOHAHQGSGSZCWOC32CWL2BNA2YLEL5GW";
+	secret = "DJVUMN4HGTZNCCMV0NWSGNUMLAJD5OK4TUKQJI34QVS1LCFL";
 
-	locations.forEach(function(item){
-		self.list.push( new Location(item));
+	locations.forEach(function(itemname){
+		self.list.push( new Location(itemname));
 	});
 
 	this.filtering = ko.computed( function() {
 		var filter = self.searchTerm().toLowerCase();
 		if (!filter) {
-			self.list().forEach(function(item){
-				item.visible(true);
+			self.list().forEach(function(itemname){
+				itemname.visible(true);
 			});
 			return self.list();
 		} else {
-			return ko.utils.arrayFilter(self.list(), function(item) {
-				var string = item.name.toLowerCase();
+			return ko.utils.arrayFilter(self.list(), function(itemname) {
+				var string = itemname.garden_name.toLowerCase();
 				var res = (string.search(filter) >= 0);
-				item.visible(res);
+				itemname.visible(res);
 				return res;
 			});
 		}
@@ -148,9 +148,9 @@ function AppView() {
  
 
 function displayMap() {
-	ko.applyBindings(new AppView());
+	ko.applyBindings(new ApplicationView());
 }
 
 function error() {
-	alert("Check your internet connection.");
+	alert("Check your net connection.");
 }

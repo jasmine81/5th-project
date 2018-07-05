@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Google Map for Botanical Gardens</title>
+	
+	<header>Search to see beautiful gardens you are interested in</header>
+	
+	<link rel="stylesheet" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<div class="search" id="search">
+		<input class="search-box" placeholder="find garden"  id="search-box" data-bind="textInput: searchTerm, valueUpdate: 'afterkeydown'" />
+	</div>
+	<div class="app" id="app">
+		<div class="list" id="list">
+			<ul class="Res" id="Res" data-bind="foreach: filtering">
+				<li class="place" id="place" data-bind="text: garden_name, click: bounce"></li>
+			</ul>
+		</div>
+		<div class="map" id="map">If you can notice this, there is an error in loading Google Maps. Please Try Again.</div>
+	</div>
+
+
+	<script src='knockout-3.4.0.js'></script>
+	<script src='jquery-1.12.0.min.js'></script>
+	<script src='apps.js'></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=displayMap&libraries=places" onerror="error()"></script>
+</body>
+</html>
